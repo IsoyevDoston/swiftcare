@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ro'yxatdan O'tish</title>
+</head>
+<body>
+    <div>
+        <h2>Ro'yxatdan O'tish</h2>
+        <form id="signup-form">
+            <label for="name">Ism:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="surname">Familya:</label>
+            <input type="text" id="surname" name="surname" required>
+            <label for="phone">Telefon:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <button type="submit">Ro'yxatdan O'tish</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/profile';
+                } else {
+                    return response.text().then(text => alert(text));
+                }
+            })
+            .catch(error => console.error('Xatolik:', error));
+        });
+    </script>
+</body>
+</html>

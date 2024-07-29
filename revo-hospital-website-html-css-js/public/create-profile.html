@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yangi Profil</title>
+</head>
+<body>
+    <div>
+        <h2>Yangi Profil</h2>
+        <form id="create-profile-form">
+            <label for="name">Ism:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="surname">Familya:</label>
+            <input type="text" id="surname" name="surname" required>
+            <label for="phone">Telefon:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <button type="submit">Profilni Yaratish</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('create-profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('/create-profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(text => alert(text))
+            .catch(error => console.error('Xatolik:', error));
+        });
+    </script>
+</body>
+</html>
